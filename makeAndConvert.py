@@ -13,9 +13,11 @@ gSystem.CompileMacro('HTTEvent.cxx')
 gSystem.CompileMacro('ScaleFactor.cc')
 gSystem.CompileMacro('HTauTauTreeBase.C')
 gSystem.CompileMacro('HTauTauTree.C')
-#gSystem.CompileMacro('HTauhTauhTree.C')
+gSystem.CompileMacro('HTauhTauhTree.C')
+gSystem.CompileMacro('HMuMuTree.C')
 from ROOT import HTauTauTree
-#from ROOT import HTauhTauhTree
+from ROOT import HTauhTauhTree
+from ROOT import HMuMuTree
 
 fileNames = []
 aFile = "file:///export/cms/akalinow/CMS/HiggsCP/Prod/Crab/Production/VBFHToTauTau_M125_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM/HTauTauAnalysis_METcorr.root"
@@ -28,10 +30,13 @@ aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
 print "TTree entries: ",aTree.GetEntries()
 HTauTauTree(aTree).Loop()
-'''
+
 print "Making the tau*tau tree"
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
-converter = HTauhTauhTree(aTree)
-converter.Loop()
-'''
+HTauhTauhTree(aTree).Loop()
+
+print "Making the mu*mu tree"
+aROOTFile = TFile.Open(aFile)
+aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
+HMuMuTree(aTree).Loop()

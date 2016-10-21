@@ -1,5 +1,5 @@
-#ifndef HTauhTauhTree_h
-#define HTauhTauhTree_h
+#ifndef HMuMuTree_h
+#define HMuMuTree_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -16,27 +16,26 @@
 // Header of the base class
 #include "HTauTauTreeBase.h"
 
-
-class HTauhTauhTree : public HTauTauTreeBase {
+class HMuMuTree : public HTauTauTreeBase {
  public :
 
   /////////////////////////////////////////////////
-  /// TT final state specific
+  /// MM final state specific
   bool pairSelection(unsigned int index);
   /////////////////////////////////////////////////
   
-  HTauhTauhTree(TTree *tree=0, std::string prefix="WAWTT");
-  virtual ~HTauhTauhTree();
+  HMuMuTree(TTree *tree=0, std::string prefix="WAWMM");
+  virtual ~HMuMuTree();
   
 };
 
 #endif
 
-#ifdef HTauhTauhTree_cxx
-HTauhTauhTree::HTauhTauhTree(TTree *tree, std::string prefix) : HTauTauTreeBase(tree, prefix) 
+#ifdef HMuMuTree_cxx
+HMuMuTree::HMuMuTree(TTree *tree, std::string prefix) : HTauTauTreeBase(tree, prefix) 
 {}
 
-HTauhTauhTree::~HTauhTauhTree()
+HMuMuTree::~HMuMuTree()
 {}
 
-#endif // #ifdef HTauhTauhTree_cxx
+#endif // #ifdef HMuMuTree_cxx
