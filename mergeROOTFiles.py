@@ -13,9 +13,10 @@ def mergeDataset(dataset, publish_data_suffix, outputDir):
     
     if dataset.split("/")[2].find("Run201")!=-1:
         shortName += "_"+dataset.split("/")[2]
-        pathPart1 = "SingleMuon"
+        pathPart1 = dataset.split("/")[1]
     
     dataDirectory =  "Data/"+publish_data_suffix+"/"+pathPart1
+    #dataDirectory =  "Data/WAWNTuple/"+publish_data_suffix+"/"+pathPart1
 
     shortName = dataset.split("/")[1]
     if dataset.split("/")[2].find("Run201")!=-1:
@@ -23,6 +24,12 @@ def mergeDataset(dataset, publish_data_suffix, outputDir):
 
     shortName = shortName.replace("-","_")
     shortName = shortName.split("_")[0]+shortName.split("_")[1]+shortName.split("_")[2]
+
+    if dataset.find("PromptReco-v")!=-1:
+        shortName+= "_v"+dataset[dataset.find("PromptReco-v")+12:dataset.find("PromptReco-v")+13]
+
+    if dataset.find("23Sep2016-v")!=-1:
+        shortName+= "_v"+dataset[dataset.find("23Sep2016-v")+11:dataset.find("23Sep2016-v")+12]
 
     if dataset.find("ext")!=-1:
         shortName+= "_"+dataset[dataset.find("ext"):dataset.find("ext")+4]
@@ -36,7 +43,10 @@ def mergeDataset(dataset, publish_data_suffix, outputDir):
     shortName = shortName.rstrip("-")
     shortName+="_"+publish_data_suffix
 
-    outputFileName = outputDir+"/"+shortName+".root"
+    outputFileNameMT = outputDir+"/"+shortName+".root"
+    outputFileNameTT = outputDir+"/TT_"+shortName+".root"
+    outputFileNameMM = outputDir+"/MM_"+shortName+".root"
+    
 
     dataDirectory += "/"+shortName
     dataDirectory+="/"+os.listdir(dataDirectory)[0]
@@ -44,7 +54,11 @@ def mergeDataset(dataset, publish_data_suffix, outputDir):
     command = "mkdir -p "+outputDir
     os.system(command)
 
-    command = "hadd -f "+outputFileName+" "+dataDirectory+"/*/*.root"
+    command = "hadd -f "+outputFileNameMT+" "+dataDirectory+"/*/WAWMT*.root"
+    os.system(command)
+    command = "hadd -f "+outputFileNameTT+" "+dataDirectory+"/*/WAWTT*.root"
+    os.system(command)
+    command = "hadd -f "+outputFileNameMM+" "+dataDirectory+"/*/WAWMM*.root"
     os.system(command)
 #########################################
 #########################################
