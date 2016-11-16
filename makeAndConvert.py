@@ -15,12 +15,13 @@ gSystem.CompileMacro('HTauTauTreeBase.C')
 gSystem.CompileMacro('HTauTauTree.C')
 gSystem.CompileMacro('HTauhTauhTree.C')
 gSystem.CompileMacro('HMuMuTree.C')
+from ROOT import HTauTauTreeBase
 from ROOT import HTauTauTree
 from ROOT import HTauhTauhTree
 from ROOT import HMuMuTree
 
 fileNames = []
-aFile = "file:///export/cms/akalinow/CMS/HiggsCP/Prod/Crab/Production/VBFHToTauTau_M125_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM/HTauTauAnalysis_METcorr.root"
+aFile = "file:///scratch/cms/akalinow/CMS/HiggsCP/Prod/Crab/Production/VBFHToTauTau_M125_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM/HTauTauAnalysis_PFMETcorr_USEPAIRMETfix.root"
 fileNames.append(aFile)
 
 print "Adding file: ",aFile
@@ -30,7 +31,7 @@ aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
 print "TTree entries: ",aTree.GetEntries()
 HTauTauTree(aTree).Loop()
-
+'''
 print "Making the tau*tau tree"
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
@@ -40,3 +41,4 @@ print "Making the mu*mu tree"
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
 HMuMuTree(aTree).Loop()
+'''

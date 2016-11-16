@@ -75,8 +75,8 @@ bool HTauTauTree::pairSelection(unsigned int iPair){
   httEvent->setSelectionBit(SelectionBitsEnum::extraElectronVeto,thirdLeptonVeto(indexMuonLeg, indexTauLeg, 11));
   
   return muonBaselineSelection && tauBaselineSelection && baselinePair
-    //&& postSynchTau && loosePostSynchMuon
-    //&& !diMuonVeto() && !thirdLeptonVeto(indexMuonLeg, indexTauLeg, 13)
+//    && postSynchTau && loosePostSynchMuon
+//    && !diMuonVeto() && !thirdLeptonVeto(indexMuonLeg, indexTauLeg, 13) && !thirdLeptonVeto(indexMuonLeg, indexTauLeg, 11)
     && true;
 }
 /////////////////////////////////////////////////
