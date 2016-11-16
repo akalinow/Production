@@ -8,6 +8,7 @@ inputDir="/scratch/cms/apyskir/Data/CP/NTUPLES_08_11_2016/"
 
 fileList = os.listdir(inputDir)
         
+inputDir = inputDir.replace("/scratch/", "/cms/")
 initString = "inputFile = "
 
 #MT
