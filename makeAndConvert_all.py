@@ -25,7 +25,8 @@ from ROOT import HTauTauTree
 from ROOT import HMuMuTree
 
 fileNames = [
-'/store/user/akalinow/HTauTauAnalysis_TAUCUT_fix.root'
+#'/store/user/akalinow/HTauTauAnalysis_TAUCUT_fix.root'
+'/export/cms/akalinow/CMS/HiggsCP/Prod/Crab/Production/VBFHToTauTau_M125_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM/HTauTauAnalysis_2.root'
 ]
 #aTree = TChain("HTauTauTree/HTauTauTree")
 #for aFile in process.source.fileNames:

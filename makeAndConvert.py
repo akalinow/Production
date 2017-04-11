@@ -24,19 +24,22 @@ from ROOT import HTauhTauhTree
 from ROOT import HMuMuTree
 
 fileNames = []
-aFile = "file://./HTauTauAnalysis.root"
+aFile = "file:///scratch/cms/akalinow/CMS/HiggsCP/Prod/Crab/Production/VBFHToTauTau_M125_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM/HTauTauAnalysis_PFMETcorr_USEPAIRMETfix.root"
 fileNames.append(aFile)
 
 print "Adding file: ",aFile
+
 print "Making the mu*tau tree"
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
 print "TTree entries: ",aTree.GetEntries()
 HTauTauTree(aTree,doSvFit).Loop()
+
 print "Making the tau*tau tree"
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
 HTauhTauhTree(aTree,doSvFit).Loop()
+
 print "Making the mu*mu tree"
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")

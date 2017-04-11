@@ -47,7 +47,8 @@ bool HTauTauTree::pairSelection(unsigned int iPair){
 		       daughters_pz->at(indexTauLeg),
 		       daughters_e->at(indexTauLeg));
   
-  bool muonBaselineSelection =  muonP4.Pt()>23 && std::abs(muonP4.Eta())<2.4 &&	
+  bool muonBaselineSelection =  muonP4.Pt()>23 && std::abs(muonP4.Eta())<2.4 &&			//VBF
+				//muonP4.Pt()>20 && std::abs(muonP4.Eta())<2.1 &&		//SUSY
 				std::abs(dz->at(indexMuonLeg))<0.2 &&
 				std::abs(dxy->at(indexMuonLeg))<0.045 &&
 			       ((daughters_muonID->at(indexMuonLeg) & (1<<6)) == (1<<6));
@@ -78,8 +79,8 @@ bool HTauTauTree::pairSelection(unsigned int iPair){
   httEvent->setSelectionBit(SelectionBitsEnum::extraElectronVeto,thirdLeptonVeto(indexMuonLeg, indexTauLeg, 11));
 
   return muonBaselineSelection && tauBaselineSelection && baselinePair
-    && postSynchTau && loosePostSynchMuon
-    && !diMuonVeto() && !thirdLeptonVeto(indexMuonLeg, indexTauLeg, 13) && !thirdLeptonVeto(indexMuonLeg, indexTauLeg, 11)
+//    && postSynchTau && loosePostSynchMuon
+//    && !diMuonVeto() && !thirdLeptonVeto(indexMuonLeg, indexTauLeg, 13) && !thirdLeptonVeto(indexMuonLeg, indexTauLeg, 11)
     && true;
 }
 /////////////////////////////////////////////////
