@@ -44,7 +44,7 @@ HTauTauTreeBase::HTauTauTreeBase(TTree *tree, bool doSvFit, std::string prefix) 
    zPtReweightFile = new TFile("zpt_weights.root");
    if(!zPtReweightFile) std::cout<<"Z pt reweight file zpt_weights.root is missing."<<std::endl;
    zptmass_histo = (TH2F*)zPtReweightFile->Get("zptmass_histo");
-   
+     
 }
 
 HTauTauTreeBase::~HTauTauTreeBase()
@@ -660,6 +660,7 @@ void HTauTauTreeBase::initWawTree(TTree *tree, std::string prefix){
   leptonPropertiesList.push_back("jets_area");
   leptonPropertiesList.push_back("jets_PUJetID");
   leptonPropertiesList.push_back("jets_jecUnc");
+  leptonPropertiesList.push_back("jets_Flavour");
   leptonPropertiesList.push_back("bDiscriminator");
   leptonPropertiesList.push_back("bCSVscore");
   leptonPropertiesList.push_back("PFjetID");
@@ -680,8 +681,6 @@ void HTauTauTreeBase::Loop(){
 
    Long64_t nentries = fChain->GetEntries();
    Long64_t nbytes = 0, nb = 0;
-   //int nPairs = 0;//MB debug
-   //int maxPairs = 100;//MB debug
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
@@ -708,10 +707,12 @@ void HTauTauTreeBase::Loop(){
 	fillPairs(bestPairIndex);
 
 	HTTPair & bestPair = httPairCollection[0];
-        for(unsigned int sysType = (unsigned int)sysEffects::NOMINAL_SVFIT;
-	    sysType<(unsigned int)sysEffects::DUMMY;++sysType){
-	  sysEffects::sysEffectsEnum type = static_cast<sysEffects::sysEffectsEnum>(sysType);
+	
+        for(unsigned int sysType = (unsigned int)HTTAnalysis::NOMINAL;
+	    sysType<(unsigned int)HTTAnalysis::DUMMY_SYS;++sysType){	  
+	  HTTAnalysis::sysEffects type = static_cast<HTTAnalysis::sysEffects>(sysType);
 	  computeSvFit(bestPair, type);
+	  //break; ///TEST for synch. ntuple
 	}
 	warsawTree->Fill();
 	hStats->Fill(2);//Number of events saved to ntuple
@@ -865,6 +866,7 @@ bool HTauTauTreeBase::jetSelection(unsigned int index, unsigned int bestPairInde
 /////////////////////////////////////////////////
 void HTauTauTreeBase::fillEvent(){
 
+
   httEvent->setRun(RunNumber);
   httEvent->setEvent(EventNumber);
   httEvent->setNPV(npv);
@@ -875,6 +877,7 @@ void HTauTauTreeBase::fillEvent(){
   
   TVector2 metPF;
   metPF.SetMagPhi(met, metphi);
+  httEvent->setMETFilterDecision(metfilterbit);
   httEvent->setMET(metPF);
 
   if(genpart_pdg){
@@ -1017,7 +1020,7 @@ TLorentzVector HTauTauTreeBase::getGenComponentP4(unsigned int index, unsigned i
     if(std::abs(genpart_pdg->at(iGenPart))==66615) aHadronicP4 =TLorentzVector(genpart_px->at(iGenPart),
 									  genpart_py->at(iGenPart),
 									  genpart_pz->at(iGenPart),
-									  genpart_e->at(iGenPart));									     
+									  genpart_e->at(iGenPart));	     
   }
 
   TLorentzVector aP4;
@@ -1052,7 +1055,6 @@ void HTauTauTreeBase::fillPairs(unsigned int bestPairIndex){
     aHTTpair.setMTLeg2(mTLeg2);    
     aHTTpair.setLeg1(httLeptonCollection.at(indexDau1->at(iPair)));
     aHTTpair.setLeg2(httLeptonCollection.at(indexDau2->at(iPair)));
-    
     httPairCollection.push_back(aHTTpair);
   }
 }
@@ -1268,7 +1270,7 @@ float HTauTauTreeBase::getPtReweight(){
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 void HTauTauTreeBase::computeSvFit(HTTPair &aPair,
-				   sysEffects::sysEffectsEnum type){
+				   HTTAnalysis::sysEffects type){
   
   if(!doSvFit_ || inputFile_visPtResolution_->IsZombie() ) return;
 
@@ -1327,40 +1329,56 @@ void HTauTauTreeBase::computeSvFit(HTTPair &aPair,
 
   if(covMET[0][0]==0 && covMET[1][0]==0 && covMET[0][1]==0 && covMET[1][1]==0) return; //singular covariance matrix     
   
-  TLorentzVector p4SVFit = aPair.getP4(sysEffects::NOMINAL_SVFIT);
-  if(type==sysEffects::NOMINAL_SVFIT || 
-     leg1.getP4(type)!=leg1.getP4(sysEffects::NOMINAL) ||
-     leg2.getP4(type)!=leg2.getP4(sysEffects::NOMINAL)){
+  TLorentzVector p4SVFit = aPair.getP4(HTTAnalysis::NOMINAL);
+  if(type==HTTAnalysis::NOMINAL || 
+     leg1.getP4(type)!=leg1.getP4(HTTAnalysis::NOMINAL) ||
+     leg2.getP4(type)!=leg2.getP4(HTTAnalysis::NOMINAL)){
        p4SVFit = runSVFitAlgo(measuredTauLeptons, aMET, covMET);
      }    
-  aPair.setP4(p4SVFit,type);  
+  aPair.setP4(p4SVFit,type);
+  aPair.setLeg1P4(p4Leg1SVFit,type);
+  aPair.setLeg2P4(p4Leg2SVFit,type);
 }
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 TLorentzVector HTauTauTreeBase::runSVFitAlgo(const std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons,
 					     const TVector2 &aMET, const TMatrixD &covMET){
 
-
+  
   unsigned int verbosity = 0;//Set the debug level to 3 for testing   
   SVfitStandaloneAlgorithm algo(measuredTauLeptons, aMET.X(), aMET.Y(), covMET, verbosity);
-  TLorentzVector p4SVFit;
-  TVector2 metSVfit;    
-  double SVptUnc = -999.;
-  double SVetaUnc = -999.;
-  double SVphiUnc = -999.;
-  double SVfitTransverseMass = -999.;
-
-  algo.addLogM(false); //In general, keep it false when using VEGAS integration                                                                            
+  svFitStandalone::MCPtEtaPhiMassAdapter *aQuantitiesAdapter = new svFitStandalone::MCPtEtaPhiMassAdapter();  
+  algo.setMCQuantitiesAdapter(aQuantitiesAdapter);
+  
+  double tauMass = 1.77686; //GeV, PDG value
+  
+  algo.addLogM(false); //In general, keep it false when using VEGAS integration 
   algo.shiftVisPt(true, inputFile_visPtResolution_);
   algo.integrateMarkovChain();
-  if( algo.isValidSolution() ){//Get solution
-    p4SVFit.SetPtEtaPhiM(algo.pt(),algo.eta(),algo.phi(),algo.getMass());
-    SVptUnc = algo.ptUncert();
-    SVetaUnc = algo.etaUncert();
-    SVphiUnc = algo.phiUncert();
-    SVfitTransverseMass = algo.transverseMass();
-    metSVfit.SetMagPhi(algo.fittedMET().Rho(),algo.fittedMET().Phi()); //This is NOT a vector in the transverse plane! It has eta != 0.
+  if(algo.isValidSolution() ){//Get solution
+
+    p4SVFit.SetPtEtaPhiM(aQuantitiesAdapter->getPt(),
+			 aQuantitiesAdapter->getEta(),
+			 aQuantitiesAdapter->getPhi(),
+			 aQuantitiesAdapter->getMass());
+    
+    p4Leg1SVFit.SetPtEtaPhiM(aQuantitiesAdapter->getLeg1Pt(),
+			     aQuantitiesAdapter->getLeg1Eta(),
+			     aQuantitiesAdapter->getLeg1Phi(),
+			     tauMass);
+    
+    p4Leg2SVFit.SetPtEtaPhiM(aQuantitiesAdapter->getLeg2Pt(),
+			     aQuantitiesAdapter->getLeg2Eta(),
+			     aQuantitiesAdapter->getLeg2Phi(),
+			     tauMass);
+        
   }
+  else{
+    p4SVFit.SetPtEtaPhiM(0,0,0,0);
+    p4Leg1SVFit.SetPtEtaPhiM(0,0,0,0);
+    p4Leg2SVFit.SetPtEtaPhiM(0,0,0,0);
+  }
+  
   return p4SVFit;
 }
 /////////////////////////////////////////////////

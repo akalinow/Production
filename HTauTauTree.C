@@ -50,7 +50,7 @@ bool HTauTauTree::pairSelection(unsigned int iPair){
   bool muonBaselineSelection =  muonP4.Pt()>23 && std::abs(muonP4.Eta())<2.4 &&	
 				std::abs(dz->at(indexMuonLeg))<0.2 &&
 				std::abs(dxy->at(indexMuonLeg))<0.045 &&
-			       ((daughters_muonID->at(indexMuonLeg) & (1<<6)) == (1<<6));//Use Short Term Instructions for ICHEP 2016
+			       ((daughters_muonID->at(indexMuonLeg) & (1<<6)) == (1<<6));
 
   bool tauBaselineSelection = tauP4.Pt()>20 && std::abs(tauP4.Eta())<2.3 &&
 			      daughters_decayModeFindingOldDMs->at(indexTauLeg)>0.5 &&
@@ -61,10 +61,13 @@ bool HTauTauTree::pairSelection(unsigned int iPair){
   bool postSynchMuon = combreliso->at(indexMuonLeg)<0.15;
   bool loosePostSynchMuon = combreliso->at(indexMuonLeg)<0.3;
   bool postSynchTau = (tauID->at(indexTauLeg) & tauIDmask) == tauIDmask;
-  ///
-  bool triggerSelection = (triggerbit & 1<<0) == (1<<0);
 
-  httEvent->clear();
+  ///SUSY synch selection
+  //muonBaselineSelection &= muonP4.Pt()>23 && std::abs(muonP4.Eta())<2.1;
+  //tauBaselineSelection &= tauP4.Pt()>30 && std::abs(tauP4.Eta())<2.3;  
+  ///////////////////////
+  
+  httEvent->clearSelectionWord();
   httEvent->setSelectionBit(SelectionBitsEnum::muonBaselineSelection,muonBaselineSelection);
   httEvent->setSelectionBit(SelectionBitsEnum::tauBaselineSelection,tauBaselineSelection);  
   httEvent->setSelectionBit(SelectionBitsEnum::baselinePair,baselinePair);

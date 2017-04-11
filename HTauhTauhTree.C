@@ -65,11 +65,11 @@ bool HTauhTauhTree::pairSelection(unsigned int iPair){
 			daughters_pz->at(indexLeg2),
 			daughters_e->at(indexLeg2));
 
-  bool tauBaselineSelection1 = tau1P4.Pt()>40 && std::abs(tau1P4.Eta())<2.1 &&
+  bool tauBaselineSelection1 = tau1P4.Pt()>35 && std::abs(tau1P4.Eta())<2.1 &&
                                daughters_decayModeFindingOldDMs->at(indexLeg1)>0.5 &&
                                std::abs(dz->at(indexLeg1))<0.2 && 
                                std::abs(daughters_charge->at(indexLeg1))==1;			
-  bool tauBaselineSelection2 = tau2P4.Pt()>40 && std::abs(tau2P4.Eta())<2.1 &&
+  bool tauBaselineSelection2 = tau2P4.Pt()>35 && std::abs(tau2P4.Eta())<2.1 &&
                                daughters_decayModeFindingOldDMs->at(indexLeg2)>0.5 &&
                                std::abs(dz->at(indexLeg2))<0.2 && 
                                std::abs(daughters_charge->at(indexLeg2))==1;			
@@ -82,8 +82,6 @@ bool HTauhTauhTree::pairSelection(unsigned int iPair){
   bool postSynchLooseTau2 = (tauID->at(indexLeg2) & tauIDmaskLoose) == tauIDmaskLoose;
   bool postSynchMediumTau1 = (tauID->at(indexLeg1) & tauIDmaskMedium) == tauIDmaskMedium;
   bool postSynchMediumTau2 = (tauID->at(indexLeg2) & tauIDmaskMedium) == tauIDmaskMedium;
-  ///
-  bool triggerSelection = (triggerbit & 1<<0) == (1<<0);//MB FIXME
   
   httEvent->setSelectionBit(SelectionBitsEnum::muonBaselineSelection,tauBaselineSelection1);
   httEvent->setSelectionBit(SelectionBitsEnum::tauBaselineSelection,tauBaselineSelection2);
@@ -93,18 +91,7 @@ bool HTauhTauhTree::pairSelection(unsigned int iPair){
   httEvent->setSelectionBit(SelectionBitsEnum::extraMuonVeto,thirdLeptonVeto(indexLeg1,indexLeg2,13));
   httEvent->setSelectionBit(SelectionBitsEnum::extraElectronVeto,thirdLeptonVeto(indexLeg1,indexLeg2,11));
   
-  /*
-  std::cout<<" tauBaselineSelection1: "<<tauBaselineSelection1
-	   <<" tauBaselineSelection2: "<<tauBaselineSelection2
-	   <<" passBaselinePair: "<<passBaselinePair
-	   <<" passPostSynchTau1: "<<passPostSynchTau1
-	   <<" passPostSynchTau2: "<<passPostSynchTau2
-	   <<" extraMuonVeto(leg1,leg2): "<<thirdLeptonVeto(indexLeg1,indexLeg2,13)
-	   <<" extraElectronVeto(leg1,leg2): "<<thirdLeptonVeto(indexLeg1,indexLeg2,11)
-	   <<std::endl;
-  */
   return tauBaselineSelection1 && tauBaselineSelection2 && baselinePair
-    //&& postSynchTau1 && postSynchTau2
     && ( (postSynchLooseTau1 && postSynchMediumTau2) || (postSynchLooseTau2 && postSynchMediumTau1) )
     && !thirdLeptonVeto(indexLeg1,indexLeg2,13)
     && !thirdLeptonVeto(indexLeg1,indexLeg2,11)

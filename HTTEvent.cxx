@@ -20,7 +20,7 @@ void HTTEvent::clear(){
   lheHt = 1.0;
   lheNOutPartons = 0;
   aMCatNLOweight = 1.0;
-  
+
   sampleType = DUMMY;
 
 #ifdef PROJECT_NAME
@@ -38,108 +38,173 @@ void HTTEvent::clear(){
   decayModeBoson = -1;
 #endif
 
-  genPV =  TVector3();
-  AODPV =  TVector3();
-  refittedPV =  TVector3();
+  genPV*=0;
+  AODPV*=0;
+  refittedPV*=0;
 
   isRefit = false;
 
   nTracksInRefit = 0;
 
   selectionWord.ResetAllBits();
-  
 }
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 void HTTParticle::clear(){
 
-  p4 = TLorentzVector();
-  chargedP4 = TLorentzVector();
-  neutralP4 = TLorentzVector();
+  p4*=0;
+  chargedP4*=0;
+  neutralP4*=0;
 
-  pca = TVector3();
-  pcaRefitPV = TVector3();
-  pcaGenPV = TVector3();
+  pca*=0;
+  pcaRefitPV*=0;
+  pcaGenPV*=0;
 
   properties.clear();
+
+  lastSystEffect = HTTAnalysis::NOMINAL;
 }
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
-TLorentzVector HTTParticle::getSystScaleP4(sysEffects::sysEffectsEnum type) const{
+const TLorentzVector & HTTParticle::getSystScaleP4(HTTAnalysis::sysEffects type) const{
 
-  if(type==sysEffects::NOMINAL || type==sysEffects::NOMINAL_SVFIT) return p4;
+  if(type==HTTAnalysis::NOMINAL) {
+    lastSystEffect = type;
+    return p4;
+  }
+  else if(lastSystEffect==type) return p4Cache;
+
+  lastSystEffect = type;
 
   if(abs(getPDGid())==15 && getProperty(PropertyEnum::mc_match)==5){
     ///True taus
-    if(type!=sysEffects::TESUp && type!=sysEffects::TESDown) return p4;
+    if(type!=HTTAnalysis::TESUp && type!=HTTAnalysis::TESDown) return p4;
     float TES = 0.03;
-    if(type==sysEffects::TESDown) TES*=-1;
+    if(type==HTTAnalysis::TESDown) TES*=-1;
     return getShiftedP4(1+TES);
-  }       
+  }
   if(abs(getPDGid())==15 && getProperty(PropertyEnum::mc_match)==3){
     ///Fake e->tau
-    if(type!=sysEffects::E2TUp && type!=sysEffects::E2TDown) return p4;
+    if(type!=HTTAnalysis::E2TUp && type!=HTTAnalysis::E2TDown) return p4;
     float EES = 0.03;
-    if(type==sysEffects::E2TDown) EES*=-1;
+    if(type==HTTAnalysis::E2TDown) EES*=-1;
     return getShiftedP4(1+EES);
-  }     
+  }
   if(abs(getPDGid())==15 && getProperty(PropertyEnum::mc_match)==4){
     ///Fake mu->tau
-    if(type!=sysEffects::M2TUp && type!=sysEffects::M2TDown) return p4;
+    if(type!=HTTAnalysis::M2TUp && type!=HTTAnalysis::M2TDown) return p4;
     float MES = 0.03;
-    if(type==sysEffects::M2TDown) MES*=-1;
+    if(type==HTTAnalysis::M2TDown) MES*=-1;
     return getShiftedP4(1+MES);
-  }     
+  }
+  if(abs(getPDGid())==98){
+    if(type!=HTTAnalysis::JESUp && type!=HTTAnalysis::JESDown) return p4;
+    float JES = getProperty(PropertyEnum::jecUnc);
+    if(type==HTTAnalysis::JESDown) JES*=-1;
+    return getShiftedP4(1+JES);
+  }
+
+  p4Cache = p4;
   return p4;
 }
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
-TLorentzVector HTTParticle::getShiftedP4(float scale) const{
+const TLorentzVector & HTTParticle::getShiftedP4(float scale) const{
 
-  TVector3 momentum = p4.Vect();
-  float pt = momentum.Perp();
-  float energy =  p4.E();
+  double pt = p4.Perp();
+  double energy =  p4.E();
   pt*=scale;
-  float shiftedMomentum = pt/sin(momentum.Theta());
-  momentum = shiftedMomentum*momentum.Unit();
-  energy = sqrt(momentum.Mag() + p4.M2());
-  TLorentzVector scaled(momentum,energy); 
-  return scaled;
+  double shiftedMomentum = pt/sin(p4.Theta());
+  energy = sqrt(p4.M2() + pow(shiftedMomentum,2));
+  p4Cache = p4;
+  p4Cache.SetRho(shiftedMomentum);
+  p4Cache.SetE(energy);
+  return p4Cache;
 }
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 void HTTPair::clear(){
 
-  p4Vector.clear();
-  svMetVector.clear();
+  if(!p4Vector.size()) p4Vector.resize(HTTAnalysis::DUMMY_SYS);
+  if(!leg1p4Vector.size()) leg1p4Vector.resize(HTTAnalysis::DUMMY_SYS);
+  if(!leg2p4Vector.size()) leg2p4Vector.resize(HTTAnalysis::DUMMY_SYS);
+  if(!svMetVector.size()) svMetVector.resize(HTTAnalysis::DUMMY_SYS);
 
-  p4Vector.resize((unsigned int)sysEffects::DUMMY);
-  svMetVector.resize((unsigned int)sysEffects::DUMMY);
+  for(auto &it:p4Vector) it*=0;
+  for(auto &it:leg1p4Vector) it*=0;
+  for(auto &it:leg2p4Vector) it*=0;
+  for(auto &it:svMetVector) it*=0;
 
   metMatrix.clear();
 
   mtLeg1= -999;
   mtLeg2 = -999;
 
-  leg1 = HTTParticle();
-  leg2 = HTTParticle();
+  leg1.clear();
+  leg2.clear();
+
+  lastSystEffect = HTTAnalysis::NOMINAL;
 }
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
-TVector2 HTTPair::getSystScaleMET(sysEffects::sysEffectsEnum type) const{
+const TLorentzVector & HTTPair::getP4(HTTAnalysis::sysEffects type) const {
 
-  if(type==sysEffects::NOMINAL) return met;
+  if(p4Vector.size()>(unsigned int)type) return p4Vector[(unsigned int)type];
+  return p4Vector[(unsigned int)HTTAnalysis::NOMINAL];
+}
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+const TLorentzVector & HTTPair::getLeg1P4(HTTAnalysis::sysEffects type) const {
 
-  TLorentzVector metShiftedP4(met.X(), met.Y(), 0, met.Mod());
+  if(leg1p4Vector.size()>(unsigned int)type) return leg1p4Vector[(unsigned int)type];
+  return leg1p4Vector[(unsigned int)HTTAnalysis::NOMINAL];
+}
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+const TLorentzVector & HTTPair::getLeg2P4(HTTAnalysis::sysEffects type) const {
 
-  metShiftedP4+=leg1.getP4(sysEffects::NOMINAL);
-  metShiftedP4+=leg1.getP4(sysEffects::NOMINAL);
+  if(leg2p4Vector.size()>(unsigned int)type) return leg2p4Vector[(unsigned int)type];
+  return leg2p4Vector[(unsigned int)HTTAnalysis::NOMINAL];
+}
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+const TVector2 & HTTPair::getSystScaleMET(HTTAnalysis::sysEffects type) const{
 
-  metShiftedP4-=leg1.getP4(type);
-  metShiftedP4-=leg1.getP4(type);
+  if(type==HTTAnalysis::NOMINAL ||
+  (unsigned int)type>(unsigned int)HTTAnalysis::DUMMY_SYS) {
+    lastSystEffect = type;
+    return met;
+  }
+  else if(lastSystEffect==type) return metCache;
 
-  TVector2 metShifted(metShiftedP4.X(), metShiftedP4.Y());
-  return metShifted;
+  double metX = met.X();
+  metX+=leg1.getP4(HTTAnalysis::NOMINAL).X();
+  metX+=leg2.getP4(HTTAnalysis::NOMINAL).X();
+  metX-=leg1.getP4(type).X();
+  metX-=leg2.getP4(type).X();
+
+  double metY = met.Y();
+  metY+=leg1.getP4(HTTAnalysis::NOMINAL).Y();
+  metY+=leg2.getP4(HTTAnalysis::NOMINAL).Y();
+  metY-=leg1.getP4(type).Y();
+  metY-=leg2.getP4(type).Y();
+
+  metCache.SetX(met.X());
+  metCache.SetY(met.Y());
+  return metCache;
+}
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+float HTTPair::getSystScaleMT(const HTTParticle &aParticle,
+			      HTTAnalysis::sysEffects type) const{
+
+  const TVector2 & metScaled = getSystScaleMET(type);
+  const TLorentzVector & legP4 = aParticle.getP4(type);
+  float sumP2 = pow(metScaled.X() + legP4.X(),2) +
+                pow(metScaled.Y() + legP4.Y(),2);
+  float sumE2 = pow(metScaled.Mod() + legP4.Perp(),2);
+  float mT = sqrt(sumE2 - sumP2);
+  return mT;
 }
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////

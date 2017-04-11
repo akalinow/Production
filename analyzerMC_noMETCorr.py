@@ -20,7 +20,7 @@ APPLYFSR=False #this is by far the slowest module (not counting SVFit so far)
 #JETCUT="pt>15"
 
 USEMVAMET=False
-APPLYMETCORR=True # flag to enable (True) and disable (False) Z-recoil corrections
+APPLYMETCORR=False # flag to enable (True) and disable (False) Z-recoil corrections
 USE_NOHFMET = False # True to exclude HF and run on silver json
 
 SVFITBYPASS=True # use SVFitBypass module, no SVfit computation, adds dummy userfloats for MET and SVfit mass
@@ -61,26 +61,21 @@ if is80X:
     execfile(PyFilePath+"python/HiggsTauTauProducer_80X.py")
 else :
     execfile(PyFilePath+"python/HiggsTauTauProducer.py")
-
-
+    
 ### ----------------------------------------------------------------------
 ### Source, better to use sample to run on batch
 ### ----------------------------------------------------------------------
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        #'file:/home/akalinow/scratch/CMS/HiggsCP/Data/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/66445A95-3151-E611-AA07-0090FAA579F0.root',
-        #'file:/home/akalinow/scratch/CMS/HiggsCP/Data/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/8EBF2F49-5551-E611-A76B-0CC47A1E046A.root',
-        #'file:/home/akalinow/scratch/CMS/HiggsCP/Data/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/C60106AA-3F51-E611-92E1-00259073E42E.root',
-        #'file:/home/akalinow/scratch/CMS/HiggsCP/Data/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/CC21A5B7-3F51-E611-98B0-0025907B4F16.root',
-        #'file:/home/akalinow/scratch/CMS/HiggsCP/Data/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/DC070582-4751-E611-B401-002590D0B0B8.root',
-        'file:/home/akalinow/scratch/CMS/HiggsCP/Data/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/E29D29F3-3851-E611-88F1-00259073E34E.root'
+        'file:/home/akalinow/scratch/CMS/HiggsCP/Data/VBFHToTauTau_M125_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM/5260BAEE-5539-E611-BE18-0025905C53F0.root'
+        #'file:/home/akalinow/scratch/CMS/HiggsCP/Data/TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext3-v1/MINIAODSIM/0064B539-803A-E611-BDEA-002590D0B060.root'
+        #'file:/home/akalinow/scratch/CMS/HiggsCP/Data/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/MINIAODSIM/02279B81-6E54-E611-ABD9-A0000420FE80.root'
     )
 )
 
 #Limited nEv for testing purposes. -1 to run all events
-process.maxEvents.input = 50000
-#process.source.eventsToProcess = cms.untracked.VEventRange('1:34679')
-#process.source.eventsToProcess = cms.untracked.VEventRange('1:34679','1:23719','1:98449','1:100935')
+process.maxEvents.input = 100
+#process.source.eventsToProcess = cms.untracked.VEventRange('1:743343') #MET test
 
 # JSON mask for data --> defined in the lumiMask file
 # from JSON file
