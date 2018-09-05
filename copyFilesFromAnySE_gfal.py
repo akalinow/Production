@@ -25,8 +25,11 @@ def copyFilesFromSE(sourcePath,destinationPath, user):
     lines = output.split('\n')
     for line in lines:
         if True or line.count("/"+user+"/"):
-            print "line: ",line
+            #print "line.split(): ",line.split()
+            if(len(line)<8):
+                continue
             localPath = line.split()[8]
+            
             if line.split()[0]=='drwxrwxr-x' and (endpoint+localPath)!=sourcePath:
                 print "directory local path: ",localPath
                 copyFilesFromSE(endpoint+"//"+localPath,destinationPath, user)
@@ -44,8 +47,8 @@ def copyFilesFromSE(sourcePath,destinationPath, user):
                 if localPath.find(".root")==-1:
                     continue
 
-                #if localPath.find("WAWMT_")==-1 and localPath.find("WAWTT_")==-1:
-                #    continue
+                if localPath.find("WAWMT_")==-1 and localPath.find("WAWTT_")==-1:
+                    continue
 
                 #if localPath.find("WAWMM_")==-1:
                 #    continue
@@ -82,7 +85,7 @@ destEndpoint = "file:./Data/"
 
 ##katalogi ktore checmy skopiowac
 directories = [
-    "/dpm/cis.gov.pl/home/cms/store/user/akalinow/WAWNTuple/Summer17_SVFit_v11/",
+    "/dpm/cis.gov.pl/home/cms/store/user/akalinow/WAWNTuple/fullRun2017_v1",
 ]
 
 ## Mozemy kopiowac zawartosc wielu katalogow. Pliki sa kopiowane do katalogow

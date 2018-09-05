@@ -36,7 +36,11 @@ def prepareCrabCfg(dataset,
     if dataset.find("03Feb2017")!=-1:
         patternEnd = dataset.find("/MINIAOD")
         shortName+= dataset[dataset.find("03Feb2017")+9:patternEnd]
-
+        
+    if dataset.find("31Mar2018")!=-1:
+        patternEnd = dataset.find("/MINIAOD")
+        shortName+= "_"+dataset[dataset.find("31Mar2018")+9+1:patternEnd]
+     
     if dataset.find("ext")!=-1:
         shortName+= "_"+dataset[dataset.find("ext"):dataset.find("ext")+4]
 
@@ -96,7 +100,7 @@ def prepareCrabCfg(dataset,
     os.system("rm -f "+jsonFile.split("/")[-1])
 #########################################
 #########################################
-eventsPerJob = 100000 #Wjets and DYJets hardoced in code above
+eventsPerJob = 200000 #Wjets and DYJets hardoced in code above
 #eventsPerJob = 200000#4Mu analysis
 
 from datasetsSummer17 import datasets
@@ -132,23 +136,30 @@ if submitJobs:
                        eventsPerJob=eventsPerJob,
                        jsonFile=jsonFile2017,
                        storage_element="T2_PL_Swierk",
-                       publish_data_suffix = "fullRun2017_v2")                  
+                       publish_data_suffix = "fullRun2017_v1")                  
 ########################################################
 ########################################################
 ## Merge output ROOT files.
 ########################################################
 if mergeJobs:
     for dataset in datasets:
-        mergeDataset(dataset=dataset, publish_data_suffix = "Run2017_HTT_v2",
-                                      outputDir="/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/fullRun2017_v2/")
+        mergeDataset(dataset=dataset, publish_data_suffix = "fullRun2017_v1",
+                                      outputDir="/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/2017/fullRun2017_v1/")
 
-#for a in v1/*v7_SM*; do crab resubmit -d $a; done
-#for a in v1/*Run2016*v7_SM*; do crab report -d $a; done
+#for a in v1/*fullRun2017_v1*; do crab resubmit -d $a; done
+#for a in v1/*Run2017*fullRun2017_v1*; do crab report -d $a; done
 
-#mergeJSON.py crab_SingleMuonRun2016*23*/results/processedLumis.json crab_SingleMuonRun2016H*/results/processedLumis.json > processedLumis_SingleMuon.json
-#mergeJSON.py crab_TauRun2016*23*/results/processedLumis.json crab_TauRun2016H*/results/processedLumis.json > processedLumis_Tau.json
+#mergeJSON.py crab_SingleMuonRun2017*/results/processedLumis.json > processedLumis_SingleMuon.json
+#mergeJSON.py crab_TauRun2017*/results/processedLumis.json > processedLumis_Tau.json
+# @lxplus:
+#~/.local/bin/brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_PHYSICS.json -u /fb -i processedLumis_SingleMuon.json
+
 #for a in *json; do echo $a >>  lumi.out; ~/.local/bin/brilcalc lumi --normtag /afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_DATACERT.json -i $a; done >>  lumi.out
 #grep -A 5 'Summary\|Run2016' lumi.out
+
+
+
+
 
 '''
 

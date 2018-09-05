@@ -35,6 +35,10 @@ def mergeDataset(dataset, publish_data_suffix, outputDir):
         patternEnd = dataset.find("/MINIAOD")
         shortName+= dataset[dataset.find("03Feb2017")+9:patternEnd]
 
+    if dataset.find("31Mar2018")!=-1:
+        patternEnd = dataset.find("/MINIAOD")
+        shortName+= "_"+dataset[dataset.find("31Mar2018")+9+1:patternEnd]
+
     if dataset.find("ext")!=-1:
         shortName+= "_"+dataset[dataset.find("ext"):dataset.find("ext")+4]
 
@@ -61,7 +65,7 @@ def mergeDataset(dataset, publish_data_suffix, outputDir):
     os.system(command)
     command = "hadd -f "+outputFileNameTT+" "+dataDirectory+"/*/WAWTT*.root"
     os.system(command)
-    command = "hadd -f "+outputFileNameMM+" "+dataDirectory+"/*/WAWMM*.root"
-    os.system(command)
+    #command = "hadd -f "+outputFileNameMM+" "+dataDirectory+"/*/WAWMM*.root"
+    #os.system(command)
 #########################################
 #########################################
