@@ -4,7 +4,7 @@ import os, re
 import commands
 import math
 
-inputDir= "/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/2017/fullRun2017_v1/MT"
+inputDir= "/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/2017/NTUPLES_11_09_2018/TT"
           
 fileList = os.listdir(inputDir)
 

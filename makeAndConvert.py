@@ -35,16 +35,22 @@ fileNames = []
 aFile = "file://./HTauTauAnalysis.root"
 fileNames.append(aFile)
 print "Adding file: ",aFile
-print "Making the mu*tau tree"
+###
+print "Making the mu*tau tree doSvFit = ",doSvFit
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
 print "TTree entries: ",aTree.GetEntries()
 HTauMuTauHTree(aTree,doSvFit).Loop()
-print "Making the tau*tau tree"
+###
+print "Making the tau*tau tree doSvFit = ",doSvFit
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
+print "TTree entries: ",aTree.GetEntries()
 HTauhTauhTree(aTree,doSvFit).Loop()
-print "Making the mu*mu tree with"
+print "Making the mu*mu tree doSvFit = ",doSvFit
 aROOTFile = TFile.Open(aFile)
 aTree = aROOTFile.Get("HTauTauTree/HTauTauTree")
+print "TTree entries: ",aTree.GetEntries()
 HMuMuTree(aTree, doSvFit).Loop()
+###
+

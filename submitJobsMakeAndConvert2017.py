@@ -136,15 +136,15 @@ if submitJobs:
                        eventsPerJob=eventsPerJob,
                        jsonFile=jsonFile2017,
                        storage_element="T2_PL_Swierk",
-                       publish_data_suffix = "fullRun2017_v1")                  
+                       publish_data_suffix = "fullRun2017_v3")                  
 ########################################################
 ########################################################
 ## Merge output ROOT files.
 ########################################################
 if mergeJobs:
     for dataset in datasets:
-        mergeDataset(dataset=dataset, publish_data_suffix = "fullRun2017_v1",
-                                      outputDir="/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/2017/fullRun2017_v1/")
+        mergeDataset(dataset=dataset, publish_data_suffix = "fullRun2017_v3",
+                                      outputDir="/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/2017/fullRun2017_v3/")
 
 #for a in v1/*fullRun2017_v1*; do crab resubmit -d $a; done
 #for a in v1/*Run2017*fullRun2017_v1*; do crab report -d $a; done
