@@ -93,7 +93,7 @@ public :
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
    // Declaration of leaf types
-    ULong64_t       EventNumber;
+     ULong64_t       EventNumber;
    Int_t           RunNumber;
    Int_t           lumi;
    Long64_t        triggerbit;
@@ -180,7 +180,7 @@ public :
    vector<double>  *genjet_e;
    vector<int>     *genjet_partonFlavour;
    vector<int>     *genjet_hadronFlavour;
-   Int_t           NUP;  
+   Int_t           NUP;
    vector<bool>    *isOSCand;
    vector<double>  *METx;
    vector<double>  *METy;
@@ -231,16 +231,9 @@ public :
    vector<int>     *daughters_decayModeFindingOldDMs;
    vector<double>  *againstElectronMVA5category;
    vector<double>  *againstElectronMVA5raw;
-   //vector<double>  *byPileupWeightedIsolationRaw3Hits;
-   //vector<double>  *footprintCorrection;
-   //vector<double>  *neutralIsoPtSumWeight;
    vector<double>  *photonPtSumOutsideSignalCone;
    vector<int>     *daughters_decayModeFindingNewDMs;
    vector<double>  *daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits;
-   //vector<double>  *daughters_byIsolationMVA3oldDMwoLTraw;
-   //vector<double>  *daughters_byIsolationMVA3oldDMwLTraw;
-   //vector<double>  *daughters_byIsolationMVA3newDMwoLTraw;
-   //vector<double>  *daughters_byIsolationMVA3newDMwLTraw;
    vector<double>  *daughters_byIsolationMVArun2v1DBoldDMwLTraw;
    vector<double>  *daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2;
    vector<double>  *daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2;
@@ -265,6 +258,19 @@ public :
    vector<int>     *daughters_numParticlesIsoCone;
    vector<double>  *daughters_leadChargedParticlePt;
    vector<double>  *daughters_trackRefPt;
+   vector<int>     *daughters_nPhoton;
+   vector<double>  *daughters_ptWeightedDetaStrip;
+   vector<double>  *daughters_ptWeightedDphiStrip;
+   vector<double>  *daughters_ptWeightedDrSignal;
+   vector<double>  *daughters_ptWeightedDrIsolation;
+   vector<double>  *daughters_eRatio;
+   vector<double>  *daughters_dxy_Sig;
+   vector<double>  *daughters_ip3d;
+   vector<double>  *daughters_ip3d_Sig;
+   vector<int>     *daughters_hasSecondaryVertex;
+   vector<double>  *daughters_decayDistMag;
+   vector<double>  *daughters_flightLengthSig;
+   vector<double>  *daughters_gjAngleDiff;
    vector<int>     *daughters_isLastTriggerObjectforPath;
    vector<Long64_t> *daughters_trgMatched;
    vector<int>     *daughters_isTriggerObjectforPath;
@@ -366,6 +372,11 @@ public :
    TBranch        *b_metphi;   //!
    TBranch        *b_PUPPImet;   //!
    TBranch        *b_PUPPImetphi;   //!
+   TBranch        *b_PFMETCov00;   //!
+   TBranch        *b_PFMETCov01;   //!
+   TBranch        *b_PFMETCov10;   //!
+   TBranch        *b_PFMETCov11;   //!
+   TBranch        *b_PFMETsignif;   //!
    TBranch        *b_npv;   //!
    TBranch        *b_npu;   //!
    TBranch        *b_PUReweight;   //!
@@ -400,8 +411,13 @@ public :
    TBranch        *b_PUNumInteractions;   //!
    TBranch        *b_daughters_genindex;   //!
    TBranch        *b_MC_weight;   //!
+   TBranch        *b_MC_weight_scale_muF0p5;   //!
+   TBranch        *b_MC_weight_scale_muF2;   //!
+   TBranch        *b_MC_weight_scale_muR0p5;   //!
+   TBranch        *b_MC_weight_scale_muR2;   //!
    TBranch        *b_lheHt;   //!
    TBranch        *b_lheNOutPartons;   //!
+   TBranch        *b_lheNOutB;   //!
    TBranch        *b_aMCatNLOweight;   //!
    TBranch        *b_genpart_px;   //!
    TBranch        *b_genpart_py;   //!
@@ -434,7 +450,7 @@ public :
    TBranch        *b_genjet_e;   //!
    TBranch        *b_genjet_partonFlavour;   //!
    TBranch        *b_genjet_hadronFlavour;   //!
-   TBranch        *b_NUP;   //! 
+   TBranch        *b_NUP;   //!
    TBranch        *b_isOSCand;   //!
    TBranch        *b_METx;   //!
    TBranch        *b_METy;   //!
@@ -471,11 +487,13 @@ public :
    TBranch        *b_decayMode;   //!
    TBranch        *b_tauID;   //!
    TBranch        *b_combreliso;   //!
+   TBranch        *b_combreliso03;   //!
    TBranch        *b_daughters_IetaIeta;   //!
    TBranch        *b_daughters_hOverE;   //!
    TBranch        *b_daughters_deltaEtaSuperClusterTrackAtVtx;   //!
    TBranch        *b_daughters_deltaPhiSuperClusterTrackAtVtx;   //!
    TBranch        *b_daughters_IoEmIoP;   //!
+   TBranch        *b_daughters_IoEmIoP_ttH;   //!
    TBranch        *b_daughters_SCeta;   //!
    TBranch        *b_daughters_depositR03_tracker;   //!
    TBranch        *b_daughters_depositR03_ecal;   //!
@@ -483,16 +501,9 @@ public :
    TBranch        *b_daughters_decayModeFindingOldDMs;   //!
    TBranch        *b_againstElectronMVA5category;   //!
    TBranch        *b_againstElectronMVA5raw;   //!
-   //TBranch        *b_byPileupWeightedIsolationRaw3Hits;   //!
-   //TBranch        *b_footprintCorrection;   //!
-   //TBranch        *b_neutralIsoPtSumWeight;   //!
    TBranch        *b_photonPtSumOutsideSignalCone;   //!
    TBranch        *b_daughters_decayModeFindingNewDMs;   //!
    TBranch        *b_daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits;   //!
-   //TBranch        *b_daughters_byIsolationMVA3oldDMwoLTraw;   //!
-   //TBranch        *b_daughters_byIsolationMVA3oldDMwLTraw;   //!
-   //TBranch        *b_daughters_byIsolationMVA3newDMwoLTraw;   //!
-   //TBranch        *b_daughters_byIsolationMVA3newDMwLTraw;   //!
    TBranch        *b_daughters_byIsolationMVArun2v1DBoldDMwLTraw;   //!
    TBranch        *b_daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2;   //!
    TBranch        *b_daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2;   //!
@@ -517,7 +528,21 @@ public :
    TBranch        *b_daughters_numParticlesIsoCone;   //!
    TBranch        *b_daughters_leadChargedParticlePt;   //!
    TBranch        *b_daughters_trackRefPt;   //!
+   TBranch        *b_daughters_nPhoton;   //!
+   TBranch        *b_daughters_ptWeightedDetaStrip;   //!
+   TBranch        *b_daughters_ptWeightedDphiStrip;   //!
+   TBranch        *b_daughters_ptWeightedDrSignal;   //!
+   TBranch        *b_daughters_ptWeightedDrIsolation;   //!
+   TBranch        *b_daughters_eRatio;   //!
+   TBranch        *b_daughters_dxy_Sig;   //!
+   TBranch        *b_daughters_ip3d;   //!
+   TBranch        *b_daughters_ip3d_Sig;   //!
+   TBranch        *b_daughters_hasSecondaryVertex;   //!
+   TBranch        *b_daughters_decayDistMag;   //!
+   TBranch        *b_daughters_flightLengthSig;   //!
+   TBranch        *b_daughters_gjAngleDiff;   //!
    TBranch        *b_daughters_isLastTriggerObjectforPath;   //!
+   TBranch        *b_daughters_trgMatched;   //!
    TBranch        *b_daughters_isTriggerObjectforPath;   //!
    TBranch        *b_daughters_FilterFired;   //!
    TBranch        *b_daughters_isGoodTriggerType;   //!
@@ -574,6 +599,7 @@ public :
    TBranch        *b_jets_jecUnc;   //!
    TBranch        *b_bDiscriminator;   //!
    TBranch        *b_bCSVscore;   //!
+   TBranch        *b_pfCombinedMVAV2BJetTags;   //!
    TBranch        *b_PFjetID;   //!
    TBranch        *b_jetRawf;   //!
    TBranch        *b_ak8jets_px;   //!
@@ -605,6 +631,7 @@ public :
    TBranch        *b_pvGen_y;   //!
    TBranch        *b_pvGen_z;   //!
    TBranch        *b_isRefitPV;   //!
+ 
 
    HTauTauTreeBase(TTree *tree=0, bool doSvFit=false, std::string prefix="WAW");
    virtual ~HTauTauTreeBase();

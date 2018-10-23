@@ -87,7 +87,6 @@ void HTauTauTreeBase::Init(TTree *tree)
    // Init() will be called many times when running on PROOF
    // (once per file to be processed).
 
-   // Set object pointer
    mothers_px = 0;
    mothers_py = 0;
    mothers_pz = 0;
@@ -146,7 +145,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    genjet_pz = 0;
    genjet_e = 0;
    genjet_partonFlavour = 0;
-   genjet_hadronFlavour = 0;  
+   genjet_hadronFlavour = 0;
    isOSCand = 0;
    METx = 0;
    METy = 0;
@@ -183,11 +182,13 @@ void HTauTauTreeBase::Init(TTree *tree)
    decayMode = 0;
    tauID = 0;
    combreliso = 0;
+   combreliso03 = 0;
    daughters_IetaIeta = 0;
    daughters_hOverE = 0;
    daughters_deltaEtaSuperClusterTrackAtVtx = 0;
    daughters_deltaPhiSuperClusterTrackAtVtx = 0;
    daughters_IoEmIoP = 0;
+   daughters_IoEmIoP_ttH = 0;
    daughters_SCeta = 0;
    daughters_depositR03_tracker = 0;
    daughters_depositR03_ecal = 0;
@@ -195,16 +196,9 @@ void HTauTauTreeBase::Init(TTree *tree)
    daughters_decayModeFindingOldDMs = 0;
    againstElectronMVA5category = 0;
    againstElectronMVA5raw = 0;
-   //byPileupWeightedIsolationRaw3Hits = 0;
-   //footprintCorrection = 0;
-   //neutralIsoPtSumWeight = 0;
    photonPtSumOutsideSignalCone = 0;
    daughters_decayModeFindingNewDMs = 0;
    daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits = 0;
-   //daughters_byIsolationMVA3oldDMwoLTraw = 0;
-   //daughters_byIsolationMVA3oldDMwLTraw = 0;
-   //daughters_byIsolationMVA3newDMwoLTraw = 0;
-   //daughters_byIsolationMVA3newDMwLTraw = 0;
    daughters_byIsolationMVArun2v1DBoldDMwLTraw = 0;
    daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2 = 0;
    daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2 = 0;
@@ -229,7 +223,21 @@ void HTauTauTreeBase::Init(TTree *tree)
    daughters_numParticlesIsoCone = 0;
    daughters_leadChargedParticlePt = 0;
    daughters_trackRefPt = 0;
+   daughters_nPhoton = 0;
+   daughters_ptWeightedDetaStrip = 0;
+   daughters_ptWeightedDphiStrip = 0;
+   daughters_ptWeightedDrSignal = 0;
+   daughters_ptWeightedDrIsolation = 0;
+   daughters_eRatio = 0;
+   daughters_dxy_Sig = 0;
+   daughters_ip3d = 0;
+   daughters_ip3d_Sig = 0;
+   daughters_hasSecondaryVertex = 0;
+   daughters_decayDistMag = 0;
+   daughters_flightLengthSig = 0;
+   daughters_gjAngleDiff = 0;
    daughters_isLastTriggerObjectforPath = 0;
+   daughters_trgMatched = 0;
    daughters_isTriggerObjectforPath = 0;
    daughters_FilterFired = 0;
    daughters_isGoodTriggerType = 0;
@@ -285,6 +293,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    jets_jecUnc = 0;
    bDiscriminator = 0;
    bCSVscore = 0;
+   pfCombinedMVAV2BJetTags = 0;
    PFjetID = 0;
    jetRawf = 0;
    ak8jets_px = 0;
@@ -321,6 +330,11 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("metphi", &metphi, &b_metphi);
    fChain->SetBranchAddress("PUPPImet", &PUPPImet, &b_PUPPImet);
    fChain->SetBranchAddress("PUPPImetphi", &PUPPImetphi, &b_PUPPImetphi);
+   fChain->SetBranchAddress("PFMETCov00", &PFMETCov00, &b_PFMETCov00);
+   fChain->SetBranchAddress("PFMETCov01", &PFMETCov01, &b_PFMETCov01);
+   fChain->SetBranchAddress("PFMETCov10", &PFMETCov10, &b_PFMETCov10);
+   fChain->SetBranchAddress("PFMETCov11", &PFMETCov11, &b_PFMETCov11);
+   fChain->SetBranchAddress("PFMETsignif", &PFMETsignif, &b_PFMETsignif);
    fChain->SetBranchAddress("npv", &npv, &b_npv);
    fChain->SetBranchAddress("npu", &npu, &b_npu);
    fChain->SetBranchAddress("PUReweight", &PUReweight, &b_PUReweight);
@@ -355,8 +369,13 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("PUNumInteractions", &PUNumInteractions, &b_PUNumInteractions);
    fChain->SetBranchAddress("daughters_genindex", &daughters_genindex, &b_daughters_genindex);
    fChain->SetBranchAddress("MC_weight", &MC_weight, &b_MC_weight);
+   fChain->SetBranchAddress("MC_weight_scale_muF0p5", &MC_weight_scale_muF0p5, &b_MC_weight_scale_muF0p5);
+   fChain->SetBranchAddress("MC_weight_scale_muF2", &MC_weight_scale_muF2, &b_MC_weight_scale_muF2);
+   fChain->SetBranchAddress("MC_weight_scale_muR0p5", &MC_weight_scale_muR0p5, &b_MC_weight_scale_muR0p5);
+   fChain->SetBranchAddress("MC_weight_scale_muR2", &MC_weight_scale_muR2, &b_MC_weight_scale_muR2);
    fChain->SetBranchAddress("lheHt", &lheHt, &b_lheHt);
    fChain->SetBranchAddress("lheNOutPartons", &lheNOutPartons, &b_lheNOutPartons);
+   fChain->SetBranchAddress("lheNOutB", &lheNOutB, &b_lheNOutB);
    fChain->SetBranchAddress("aMCatNLOweight", &aMCatNLOweight, &b_aMCatNLOweight);
    fChain->SetBranchAddress("genpart_px", &genpart_px, &b_genpart_px);
    fChain->SetBranchAddress("genpart_py", &genpart_py, &b_genpart_py);
@@ -389,7 +408,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("genjet_e", &genjet_e, &b_genjet_e);
    fChain->SetBranchAddress("genjet_partonFlavour", &genjet_partonFlavour, &b_genjet_partonFlavour);
    fChain->SetBranchAddress("genjet_hadronFlavour", &genjet_hadronFlavour, &b_genjet_hadronFlavour);
-   fChain->SetBranchAddress("NUP", &NUP, &b_NUP);  
+   fChain->SetBranchAddress("NUP", &NUP, &b_NUP);
    fChain->SetBranchAddress("isOSCand", &isOSCand, &b_isOSCand);
    fChain->SetBranchAddress("METx", &METx, &b_METx);
    fChain->SetBranchAddress("METy", &METy, &b_METy);
@@ -426,11 +445,13 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("decayMode", &decayMode, &b_decayMode);
    fChain->SetBranchAddress("tauID", &tauID, &b_tauID);
    fChain->SetBranchAddress("combreliso", &combreliso, &b_combreliso);
+   fChain->SetBranchAddress("combreliso03", &combreliso03, &b_combreliso03);
    fChain->SetBranchAddress("daughters_IetaIeta", &daughters_IetaIeta, &b_daughters_IetaIeta);
    fChain->SetBranchAddress("daughters_hOverE", &daughters_hOverE, &b_daughters_hOverE);
    fChain->SetBranchAddress("daughters_deltaEtaSuperClusterTrackAtVtx", &daughters_deltaEtaSuperClusterTrackAtVtx, &b_daughters_deltaEtaSuperClusterTrackAtVtx);
    fChain->SetBranchAddress("daughters_deltaPhiSuperClusterTrackAtVtx", &daughters_deltaPhiSuperClusterTrackAtVtx, &b_daughters_deltaPhiSuperClusterTrackAtVtx);
    fChain->SetBranchAddress("daughters_IoEmIoP", &daughters_IoEmIoP, &b_daughters_IoEmIoP);
+   fChain->SetBranchAddress("daughters_IoEmIoP_ttH", &daughters_IoEmIoP_ttH, &b_daughters_IoEmIoP_ttH);
    fChain->SetBranchAddress("daughters_SCeta", &daughters_SCeta, &b_daughters_SCeta);
    fChain->SetBranchAddress("daughters_depositR03_tracker", &daughters_depositR03_tracker, &b_daughters_depositR03_tracker);
    fChain->SetBranchAddress("daughters_depositR03_ecal", &daughters_depositR03_ecal, &b_daughters_depositR03_ecal);
@@ -438,16 +459,9 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("daughters_decayModeFindingOldDMs", &daughters_decayModeFindingOldDMs, &b_daughters_decayModeFindingOldDMs);
    fChain->SetBranchAddress("againstElectronMVA5category", &againstElectronMVA5category, &b_againstElectronMVA5category);
    fChain->SetBranchAddress("againstElectronMVA5raw", &againstElectronMVA5raw, &b_againstElectronMVA5raw);
-   //fChain->SetBranchAddress("byPileupWeightedIsolationRaw3Hits", &byPileupWeightedIsolationRaw3Hits, &b_byPileupWeightedIsolationRaw3Hits);
-   //fChain->SetBranchAddress("footprintCorrection", &footprintCorrection, &b_footprintCorrection);
-   //fChain->SetBranchAddress("neutralIsoPtSumWeight", &neutralIsoPtSumWeight, &b_neutralIsoPtSumWeight);
    fChain->SetBranchAddress("photonPtSumOutsideSignalCone", &photonPtSumOutsideSignalCone, &b_photonPtSumOutsideSignalCone);
    fChain->SetBranchAddress("daughters_decayModeFindingNewDMs", &daughters_decayModeFindingNewDMs, &b_daughters_decayModeFindingNewDMs);
    fChain->SetBranchAddress("daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits", &daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits, &b_daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits);
-   //fChain->SetBranchAddress("daughters_byIsolationMVA3oldDMwoLTraw", &daughters_byIsolationMVA3oldDMwoLTraw, &b_daughters_byIsolationMVA3oldDMwoLTraw);
-   //fChain->SetBranchAddress("daughters_byIsolationMVA3oldDMwLTraw", &daughters_byIsolationMVA3oldDMwLTraw, &b_daughters_byIsolationMVA3oldDMwLTraw);
-   //fChain->SetBranchAddress("daughters_byIsolationMVA3newDMwoLTraw", &daughters_byIsolationMVA3newDMwoLTraw, &b_daughters_byIsolationMVA3newDMwoLTraw);
-   //fChain->SetBranchAddress("daughters_byIsolationMVA3newDMwLTraw", &daughters_byIsolationMVA3newDMwLTraw, &b_daughters_byIsolationMVA3newDMwLTraw);
    fChain->SetBranchAddress("daughters_byIsolationMVArun2v1DBoldDMwLTraw", &daughters_byIsolationMVArun2v1DBoldDMwLTraw, &b_daughters_byIsolationMVArun2v1DBoldDMwLTraw);
    fChain->SetBranchAddress("daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2", &daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2, &b_daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2);
    fChain->SetBranchAddress("daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2", &daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2, &b_daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2);
@@ -472,7 +486,21 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("daughters_numParticlesIsoCone", &daughters_numParticlesIsoCone, &b_daughters_numParticlesIsoCone);
    fChain->SetBranchAddress("daughters_leadChargedParticlePt", &daughters_leadChargedParticlePt, &b_daughters_leadChargedParticlePt);
    fChain->SetBranchAddress("daughters_trackRefPt", &daughters_trackRefPt, &b_daughters_trackRefPt);
+   fChain->SetBranchAddress("daughters_nPhoton", &daughters_nPhoton, &b_daughters_nPhoton);
+   fChain->SetBranchAddress("daughters_ptWeightedDetaStrip", &daughters_ptWeightedDetaStrip, &b_daughters_ptWeightedDetaStrip);
+   fChain->SetBranchAddress("daughters_ptWeightedDphiStrip", &daughters_ptWeightedDphiStrip, &b_daughters_ptWeightedDphiStrip);
+   fChain->SetBranchAddress("daughters_ptWeightedDrSignal", &daughters_ptWeightedDrSignal, &b_daughters_ptWeightedDrSignal);
+   fChain->SetBranchAddress("daughters_ptWeightedDrIsolation", &daughters_ptWeightedDrIsolation, &b_daughters_ptWeightedDrIsolation);
+   fChain->SetBranchAddress("daughters_eRatio", &daughters_eRatio, &b_daughters_eRatio);
+   fChain->SetBranchAddress("daughters_dxy_Sig", &daughters_dxy_Sig, &b_daughters_dxy_Sig);
+   fChain->SetBranchAddress("daughters_ip3d", &daughters_ip3d, &b_daughters_ip3d);
+   fChain->SetBranchAddress("daughters_ip3d_Sig", &daughters_ip3d_Sig, &b_daughters_ip3d_Sig);
+   fChain->SetBranchAddress("daughters_hasSecondaryVertex", &daughters_hasSecondaryVertex, &b_daughters_hasSecondaryVertex);
+   fChain->SetBranchAddress("daughters_decayDistMag", &daughters_decayDistMag, &b_daughters_decayDistMag);
+   fChain->SetBranchAddress("daughters_flightLengthSig", &daughters_flightLengthSig, &b_daughters_flightLengthSig);
+   fChain->SetBranchAddress("daughters_gjAngleDiff", &daughters_gjAngleDiff, &b_daughters_gjAngleDiff);
    fChain->SetBranchAddress("daughters_isLastTriggerObjectforPath", &daughters_isLastTriggerObjectforPath, &b_daughters_isLastTriggerObjectforPath);
+   fChain->SetBranchAddress("daughters_trgMatched", &daughters_trgMatched, &b_daughters_trgMatched);
    fChain->SetBranchAddress("daughters_isTriggerObjectforPath", &daughters_isTriggerObjectforPath, &b_daughters_isTriggerObjectforPath);
    fChain->SetBranchAddress("daughters_FilterFired", &daughters_FilterFired, &b_daughters_FilterFired);
    fChain->SetBranchAddress("daughters_isGoodTriggerType", &daughters_isGoodTriggerType, &b_daughters_isGoodTriggerType);
@@ -529,6 +557,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("jets_jecUnc", &jets_jecUnc, &b_jets_jecUnc);
    fChain->SetBranchAddress("bDiscriminator", &bDiscriminator, &b_bDiscriminator);
    fChain->SetBranchAddress("bCSVscore", &bCSVscore, &b_bCSVscore);
+   fChain->SetBranchAddress("pfCombinedMVAV2BJetTags", &pfCombinedMVAV2BJetTags, &b_pfCombinedMVAV2BJetTags);
    fChain->SetBranchAddress("PFjetID", &PFjetID, &b_PFjetID);
    fChain->SetBranchAddress("jetRawf", &jetRawf, &b_jetRawf);
    fChain->SetBranchAddress("ak8jets_px", &ak8jets_px, &b_ak8jets_px);
