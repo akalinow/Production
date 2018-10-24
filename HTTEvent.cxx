@@ -1,9 +1,4 @@
-#ifdef PROJECT_NAME
-#include "m2n/HTTDataFormats/interface/HTTEvent.h"
-#include "m2n/HTT/interface/GenInfoHelper.h"
-#else
 #include "HTTEvent.h"
-#endif
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////

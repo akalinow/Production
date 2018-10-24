@@ -37,6 +37,18 @@ bool HTauMuTauHTree::pairSelection(unsigned int iPair){
     if(HTTEvent::tauIDStrings[iBit]=="againstMuonTight3") tauIDmask |= (1<<iBit);
     if(HTTEvent::tauIDStrings[iBit]=="againstElectronVLooseMVA6") tauIDmask |= (1<<iBit);
   }
+
+  ///Settings for the tau ID ML training.
+  /*
+  tauIDmask = 0;
+  for(unsigned int iBit=0;iBit<HTTEvent::ntauIds;iBit++){
+    if(HTTEvent::tauIDStrings[iBit]=="byVLooseIsolationMVArun2v1DBoldDMwLT2017v2") tauIDmask |= (1<<iBit);
+    if(HTTEvent::tauIDStrings[iBit]=="againstMuonLoose3") tauIDmask |= (1<<iBit);
+    if(HTTEvent::tauIDStrings[iBit]=="againstElectronVLooseMVA6") tauIDmask |= (1<<iBit);
+  }
+  */
+  ////////////////////////////////////////
+  
   TLorentzVector muonP4(daughters_px->at(indexMuonLeg),
 			daughters_py->at(indexMuonLeg),
 			daughters_pz->at(indexMuonLeg),

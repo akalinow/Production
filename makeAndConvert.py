@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import os.path
 
 from ROOT import gSystem, TChain, TSystem, TFile
 
@@ -8,11 +9,16 @@ doSvFit = True
 if doSvFit :
     print "Run with SVFit computation"
 
-#Checkout DNN training files
-command = "cd $CMSSW_BASE/src; "
-command += "git clone https://github.com/cms-tau-pog/RecoTauTag-TrainingFiles -b master RecoTauTag/TrainingFiles/data; "
-command += "cd -;"
-os.system(command)
+#Checkout DNN training files of those are not present in the working area
+#(dut to size the DNN training files should not be send with input sandbox)
+DNN_data_path = os.environ["CMSSW_BASE"]+"/external/"+os.environ["SCRAM_ARCH"]+"/data/RecoTauTag/TrainingFiles/data"
+isDNN_present = os.path.exists(DNN_data_path)
+
+if not isDNN_present:
+    command = "cd $CMSSW_BASE/src; "
+    command += "git clone https://github.com/cms-tau-pog/RecoTauTag-TrainingFiles -b master RecoTauTag/TrainingFiles/data; "
+    command += "cd -;"
+    os.system(command)
 
 #Some system have problem runnig compilation (missing glibc-static library?).
 #First we try to compile, and only then we start time consuming cmssw

@@ -231,7 +231,7 @@ public :
    vector<int>     *daughters_decayModeFindingOldDMs;
    vector<double>  *againstElectronMVA5category;
    vector<double>  *againstElectronMVA5raw;
-   vector<double>  *photonPtSumOutsideSignalCone;
+   vector<double>  *daughters_photonPtSumOutsideSignalCone;
    vector<int>     *daughters_decayModeFindingNewDMs;
    vector<double>  *daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits;
    vector<double>  *daughters_byIsolationMVArun2v1DBoldDMwLTraw;
@@ -251,7 +251,7 @@ public :
    vector<int>     *daughters_numChargedParticlesSignalCone;
    vector<int>     *daughters_numNeutralHadronsSignalCone;
    vector<int>     *daughters_numPhotonsSignalCone;
-   vector<int>     *daughters_daughters_numParticlesSignalCone;
+   vector<int>     *daughters_numParticlesSignalCone;
    vector<int>     *daughters_numChargedParticlesIsoCone;
    vector<int>     *daughters_numNeutralHadronsIsoCone;
    vector<int>     *daughters_numPhotonsIsoCone;
@@ -501,7 +501,7 @@ public :
    TBranch        *b_daughters_decayModeFindingOldDMs;   //!
    TBranch        *b_againstElectronMVA5category;   //!
    TBranch        *b_againstElectronMVA5raw;   //!
-   TBranch        *b_photonPtSumOutsideSignalCone;   //!
+   TBranch        *b_daughters_photonPtSumOutsideSignalCone;   //!
    TBranch        *b_daughters_decayModeFindingNewDMs;   //!
    TBranch        *b_daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits;   //!
    TBranch        *b_daughters_byIsolationMVArun2v1DBoldDMwLTraw;   //!
@@ -521,7 +521,7 @@ public :
    TBranch        *b_daughters_numChargedParticlesSignalCone;   //!
    TBranch        *b_daughters_numNeutralHadronsSignalCone;   //!
    TBranch        *b_daughters_numPhotonsSignalCone;   //!
-   TBranch        *b_daughters_daughters_numParticlesSignalCone;   //!
+   TBranch        *b_daughters_numParticlesSignalCone;   //!
    TBranch        *b_daughters_numChargedParticlesIsoCone;   //!
    TBranch        *b_daughters_numNeutralHadronsIsoCone;   //!
    TBranch        *b_daughters_numPhotonsIsoCone;   //!

@@ -196,7 +196,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    daughters_decayModeFindingOldDMs = 0;
    againstElectronMVA5category = 0;
    againstElectronMVA5raw = 0;
-   photonPtSumOutsideSignalCone = 0;
+   daughters_photonPtSumOutsideSignalCone = 0;
    daughters_decayModeFindingNewDMs = 0;
    daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits = 0;
    daughters_byIsolationMVArun2v1DBoldDMwLTraw = 0;
@@ -216,7 +216,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    daughters_numChargedParticlesSignalCone = 0;
    daughters_numNeutralHadronsSignalCone = 0;
    daughters_numPhotonsSignalCone = 0;
-   daughters_daughters_numParticlesSignalCone = 0;
+   daughters_numParticlesSignalCone = 0;
    daughters_numChargedParticlesIsoCone = 0;
    daughters_numNeutralHadronsIsoCone = 0;
    daughters_numPhotonsIsoCone = 0;
@@ -459,7 +459,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("daughters_decayModeFindingOldDMs", &daughters_decayModeFindingOldDMs, &b_daughters_decayModeFindingOldDMs);
    fChain->SetBranchAddress("againstElectronMVA5category", &againstElectronMVA5category, &b_againstElectronMVA5category);
    fChain->SetBranchAddress("againstElectronMVA5raw", &againstElectronMVA5raw, &b_againstElectronMVA5raw);
-   fChain->SetBranchAddress("photonPtSumOutsideSignalCone", &photonPtSumOutsideSignalCone, &b_photonPtSumOutsideSignalCone);
+   fChain->SetBranchAddress("daughters_photonPtSumOutsideSignalCone", &daughters_photonPtSumOutsideSignalCone, &b_daughters_photonPtSumOutsideSignalCone);
    fChain->SetBranchAddress("daughters_decayModeFindingNewDMs", &daughters_decayModeFindingNewDMs, &b_daughters_decayModeFindingNewDMs);
    fChain->SetBranchAddress("daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits", &daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits, &b_daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits);
    fChain->SetBranchAddress("daughters_byIsolationMVArun2v1DBoldDMwLTraw", &daughters_byIsolationMVArun2v1DBoldDMwLTraw, &b_daughters_byIsolationMVArun2v1DBoldDMwLTraw);
@@ -479,7 +479,7 @@ void HTauTauTreeBase::Init(TTree *tree)
    fChain->SetBranchAddress("daughters_numChargedParticlesSignalCone", &daughters_numChargedParticlesSignalCone, &b_daughters_numChargedParticlesSignalCone);
    fChain->SetBranchAddress("daughters_numNeutralHadronsSignalCone", &daughters_numNeutralHadronsSignalCone, &b_daughters_numNeutralHadronsSignalCone);
    fChain->SetBranchAddress("daughters_numPhotonsSignalCone", &daughters_numPhotonsSignalCone, &b_daughters_numPhotonsSignalCone);
-   fChain->SetBranchAddress("daughters_daughters_numParticlesSignalCone", &daughters_daughters_numParticlesSignalCone, &b_daughters_daughters_numParticlesSignalCone);
+   fChain->SetBranchAddress("daughters_numParticlesSignalCone", &daughters_numParticlesSignalCone, &b_daughters_numParticlesSignalCone);
    fChain->SetBranchAddress("daughters_numChargedParticlesIsoCone", &daughters_numChargedParticlesIsoCone, &b_daughters_numChargedParticlesIsoCone);
    fChain->SetBranchAddress("daughters_numNeutralHadronsIsoCone", &daughters_numNeutralHadronsIsoCone, &b_daughters_numNeutralHadronsIsoCone);
    fChain->SetBranchAddress("daughters_numPhotonsIsoCone", &daughters_numPhotonsIsoCone, &b_daughters_numPhotonsIsoCone);
@@ -642,7 +642,7 @@ void HTauTauTreeBase::initWawTree(TTree *tree, std::string prefix){
   leptonPropertiesList.push_back("daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits");
   leptonPropertiesList.push_back("daughters_byIsolationMVArun2v1DBoldDMwLTraw");
   leptonPropertiesList.push_back("daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2");
-  //leptonPropertiesList.push_back("againstElectronMVA5category");
+
   leptonPropertiesList.push_back("dxy");
   leptonPropertiesList.push_back("dz");
   leptonPropertiesList.push_back("SIP");
@@ -664,7 +664,6 @@ void HTauTauTreeBase::initWawTree(TTree *tree, std::string prefix){
   leptonPropertiesList.push_back("bCSVscore");
   leptonPropertiesList.push_back("PFjetID");
 
-  leptonPropertiesList.push_back("daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2");
   leptonPropertiesList.push_back("daughters_deepTau2017v1tauVSe");
   leptonPropertiesList.push_back("daughters_deepTau2017v1tauVSmu");
   leptonPropertiesList.push_back("daughters_deepTau2017v1tauVSjet");
@@ -672,6 +671,23 @@ void HTauTauTreeBase::initWawTree(TTree *tree, std::string prefix){
   leptonPropertiesList.push_back("daughters_DPFTau_2016_v0tauVSall");
   leptonPropertiesList.push_back("daughters_DPFTau_2016_v1tauVSall");
 
+  leptonPropertiesList.push_back("daughters_chargedIsoPtSum");
+  leptonPropertiesList.push_back("daughters_neutralIsoPtSum");
+  leptonPropertiesList.push_back("daughters_puCorrPtSum");
+  leptonPropertiesList.push_back("daughters_photonPtSumOutsideSignalCone");
+  leptonPropertiesList.push_back("daughters_nPhoton");
+  leptonPropertiesList.push_back("daughters_ptWeightedDetaStrip");
+  leptonPropertiesList.push_back("daughters_ptWeightedDphiStrip");
+  leptonPropertiesList.push_back("daughters_ptWeightedDrSignal");
+  leptonPropertiesList.push_back("daughters_ptWeightedDrIsolation");
+  leptonPropertiesList.push_back("daughters_eRatio");
+  leptonPropertiesList.push_back("daughters_dxy_Sig");
+  leptonPropertiesList.push_back("daughters_ip3d");
+  leptonPropertiesList.push_back("daughters_hasSecondaryVertex");
+  leptonPropertiesList.push_back("daughters_decayDistMag");
+  leptonPropertiesList.push_back("daughters_flightLengthSig");
+  leptonPropertiesList.push_back("daughters_gjAngleDiff");
+  
   ////////////////////////////////////////////////////////////
   ///Gen Lepton properties MUST be synchronized with lepton properties
   ///since the branches name are not uniform, we need a second names vector.
@@ -1159,7 +1175,7 @@ void HTauTauTreeBase::writePropertiesHeader(const std::vector<std::string> & pro
 
   ofstream outputFile("PropertyEnum.h");
 
-  outputFile<<"enum class PropertyEnum { ";
+  outputFile<<"enum class PropertyEnum {\n";
   for(unsigned int iItem=0;iItem<propertiesList.size();++iItem){
     std::string name = propertiesList[iItem];
     std::string pattern = "daughters_";
@@ -1171,8 +1187,30 @@ void HTauTauTreeBase::writePropertiesHeader(const std::vector<std::string> & pro
     outputFile<<name<<" = "<<iItem<<", "<<std::endl;
   }
   outputFile<<"NONE"<<" = "<<propertiesList.size()<<std::endl;
+  outputFile<<"};\n"<<std::endl;
+  outputFile<<"#include <map>"<<std::endl;
+  outputFile<<"class PropertyEnumString { "<<std::endl;
+  outputFile<<"public:"<<std::endl;
+  outputFile<<"static const std::map<std::string, PropertyEnum> enumMap;"<<std::endl;
   outputFile<<"};"<<std::endl;
   outputFile.close();
+
+  ofstream outputFileCXX("PropertyEnum.cc");
+  outputFileCXX<<"#include \"PropertyEnum.h\" "<<std::endl;
+  outputFileCXX<<"const std::map<std::string, PropertyEnum> PropertyEnumString::enumMap={"<<std::endl;
+
+ for(unsigned int iItem=0;iItem<propertiesList.size();++iItem){
+  std::string name = propertiesList[iItem];
+  std::string pattern = "daughters_";
+  if(name.find(pattern)!=std::string::npos) name.erase(name.find(pattern), pattern.size());
+  pattern = "Daughters";
+  if(name.find(pattern)!=std::string::npos) name.erase(name.find(pattern), pattern.size());
+  pattern = "jets_";
+  if(name.find(pattern)!=std::string::npos) name.erase(name.find(pattern), pattern.size());
+  outputFileCXX<<"{\""<<name<<"\", "<<"PropertyEnum::"<<name<<"},"<<std::endl;
+ }
+  outputFileCXX<<"};"<<std::endl;
+  outputFileCXX.close();
 }
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
