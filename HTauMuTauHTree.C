@@ -37,16 +37,6 @@ bool HTauMuTauHTree::pairSelection(unsigned int iPair){
     if(HTTEvent::tauIDStrings[iBit]=="againstMuonTight3") tauIDmask |= (1<<iBit);
     if(HTTEvent::tauIDStrings[iBit]=="againstElectronVLooseMVA6") tauIDmask |= (1<<iBit);
   }
-
-  ///Settings for the tau ID ML training.
-  /*
-  tauIDmask = 0;
-  for(unsigned int iBit=0;iBit<HTTEvent::ntauIds;iBit++){
-    if(HTTEvent::tauIDStrings[iBit]=="byVLooseIsolationMVArun2v1DBoldDMwLT2017v2") tauIDmask |= (1<<iBit);
-    if(HTTEvent::tauIDStrings[iBit]=="againstMuonLoose3") tauIDmask |= (1<<iBit);
-    if(HTTEvent::tauIDStrings[iBit]=="againstElectronVLooseMVA6") tauIDmask |= (1<<iBit);
-  }
-  */
   ////////////////////////////////////////
   
   TLorentzVector muonP4(daughters_px->at(indexMuonLeg),
@@ -67,8 +57,8 @@ bool HTauMuTauHTree::pairSelection(unsigned int iPair){
 				std::abs(dxy->at(indexMuonLeg))<0.045 &&
 			       ((daughters_muonID->at(indexMuonLeg) & (1<<muonIdBit)) == (1<<muonIdBit));
 
-  bool tauBaselineSelection = tauP4.Pt()>20 && std::abs(tauP4.Eta())<2.3 &&
-			      daughters_decayModeFindingOldDMs->at(indexTauLeg)>0.5 &&
+  bool tauBaselineSelection = tauP4.Pt()>15 && std::abs(tauP4.Eta())<2.3 &&
+			      daughters_decayModeFindingNewDMs->at(indexTauLeg)>0.5 &&
                               std::abs(dz->at(indexTauLeg))<0.2 &&
                               std::abs(daughters_charge->at(indexTauLeg))==1;
 
@@ -80,6 +70,11 @@ bool HTauMuTauHTree::pairSelection(unsigned int iPair){
   ///SUSY synch selection
   //muonBaselineSelection &= muonP4.Pt()>23 && std::abs(muonP4.Eta())<2.1;
   //tauBaselineSelection &= tauP4.Pt()>30 && std::abs(tauP4.Eta())<2.3;
+  ///////////////////////
+  ///Tau ID training
+  loosePostSynchMuon = true;
+  muonBaselineSelection = true;
+  postSynchTau = true;
   ///////////////////////
 
   httEvent->clearSelectionWord();

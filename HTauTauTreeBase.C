@@ -642,6 +642,7 @@ void HTauTauTreeBase::initWawTree(TTree *tree, std::string prefix){
   leptonPropertiesList.push_back("daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits");
   leptonPropertiesList.push_back("daughters_byIsolationMVArun2v1DBoldDMwLTraw");
   leptonPropertiesList.push_back("daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2");
+  leptonPropertiesList.push_back("daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2");
 
   leptonPropertiesList.push_back("dxy");
   leptonPropertiesList.push_back("dz");

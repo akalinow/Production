@@ -66,11 +66,11 @@ bool HTauhTauhTree::pairSelection(unsigned int iPair){
 			daughters_e->at(indexLeg2));
 
   bool tauBaselineSelection1 = tau1P4.Pt()>35 && std::abs(tau1P4.Eta())<2.1 &&
-                               daughters_decayModeFindingOldDMs->at(indexLeg1)>0.5 &&
+                               daughters_decayModeFindingNewDMs->at(indexLeg1)>0.5 &&
                                std::abs(dz->at(indexLeg1))<0.2 &&
                                std::abs(daughters_charge->at(indexLeg1))==1;
   bool tauBaselineSelection2 = tau2P4.Pt()>35 && std::abs(tau2P4.Eta())<2.1 &&
-                               daughters_decayModeFindingOldDMs->at(indexLeg2)>0.5 &&
+                               daughters_decayModeFindingNewDMs->at(indexLeg2)>0.5 &&
                                std::abs(dz->at(indexLeg2))<0.2 &&
                                std::abs(daughters_charge->at(indexLeg2))==1;
 
