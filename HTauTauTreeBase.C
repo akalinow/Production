@@ -888,7 +888,7 @@ bool HTauTauTreeBase::jetSelection(unsigned int index, unsigned int bestPairInde
 		     jets_pz->at(index),
 		     jets_e->at(index));
 
-  bool passSelection = aP4.Pt()>20 && std::abs(aP4.Eta())<4.7 &&
+  bool passSelection = aP4.Pt()>10 && std::abs(aP4.Eta())<4.7 &&
                        PFjetID->at(index)>=1;
  
   if(bestPairIndex<9999){
@@ -901,9 +901,10 @@ bool HTauTauTreeBase::jetSelection(unsigned int index, unsigned int bestPairInde
 			daughters_py->at(indexDau2->at(bestPairIndex)),
 			daughters_pz->at(indexDau2->at(bestPairIndex)),
 			daughters_e->at(indexDau2->at(bestPairIndex)));
-
+  /*
       passSelection &= aP4.DeltaR(leg1P4) > 0.5 &&
   		       aP4.DeltaR(leg2P4) > 0.5;
+  */
  }
 
   return passSelection;

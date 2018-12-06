@@ -13,7 +13,7 @@ if doSvFit :
 command = "cmsRun -j FrameworkJobReport.xml -p PSet.py"
 os.system(command)
 
-gSystem.CompileMacro('HTTEvent.cxx')
+gSystem.CompileMacro('HTTEvent.cc')
 gSystem.CompileMacro('ScaleFactor.cc')
 gSystem.Load('$CMSSW_BASE/lib/$SCRAM_ARCH/libTauAnalysisClassicSVfit.so')
 gSystem.CompileMacro('HTauTauTreeBase.C')

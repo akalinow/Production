@@ -33,7 +33,8 @@ bool HTauMuTauHTree::pairSelection(unsigned int iPair){
 
   int tauIDmask = 0;
   for(unsigned int iBit=0;iBit<HTTEvent::ntauIds;iBit++){
-    if(HTTEvent::tauIDStrings[iBit]=="byTightIsolationMVArun2v1DBoldDMwLT2017v2") tauIDmask |= (1<<iBit);
+    //if(HTTEvent::tauIDStrings[iBit]=="byTightIsolationMVArun2v1DBnewDMwLT2017v2") tauIDmask |= (1<<iBit);
+    if(HTTEvent::tauIDStrings[iBit]=="byVLooseIsolationMVArun2v1DBnewDMwLT2017v2") tauIDmask |= (1<<iBit);
     if(HTTEvent::tauIDStrings[iBit]=="againstMuonTight3") tauIDmask |= (1<<iBit);
     if(HTTEvent::tauIDStrings[iBit]=="againstElectronVLooseMVA6") tauIDmask |= (1<<iBit);
   }

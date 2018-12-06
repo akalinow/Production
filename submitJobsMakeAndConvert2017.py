@@ -67,7 +67,7 @@ def prepareCrabCfg(dataset,
     config.JobType.disableAutomaticOutputCollection = True
     config.JobType.scriptExe = 'makeAndConvert.py'
     config.JobType.outputFiles = ['WAWMT_HTauTauAnalysis.root', 'WAWTT_HTauTauAnalysis.root', 'WAWMM_HTauTauAnalysis.root']
-    config.JobType.inputFiles = ['HTauTauTreeBase.C', 'HTauTauTreeBase.h', 'HTauhTauhTree.C', 'HTauhTauhTree.h','HTauMuTauHTree.C', 'HTauMuTauHTree.h','HMuMuTree.C', 'HMuMuTree.h', 'HTTEvent.cxx', 'HTTEvent.h', 'AnalysisEnums.h', 'PropertyEnum.h', 'TriggerEnum.h', 'SelectionBitsEnum.h', 'zpt_weights_summer2016.root', 'zpt_weights_2016_BtoH.root']
+    config.JobType.inputFiles = ['HTauTauTreeBase.C', 'HTauTauTreeBase.h', 'HTauhTauhTree.C', 'HTauhTauhTree.h','HTauMuTauHTree.C', 'HTauMuTauHTree.h','HMuMuTree.C', 'HMuMuTree.h', 'HTTEvent.cc', 'HTTEvent.h', 'AnalysisEnums.h', 'PropertyEnum.h', 'TriggerEnum.h', 'SelectionBitsEnum.h', 'zpt_weights_summer2016.root', 'zpt_weights_2016_BtoH.root']
 
     config.Site.storageSite = storage_element
     config.General.requestName = shortName
@@ -108,11 +108,20 @@ eventsPerJob = 200000 #Wjets and DYJets hardoced in code above
 
 from datasetsSummer17 import datasets
 
+'''
 ##TEST
-#datasets = [
+datasets = [
   "/GluGluHToTauTau_M125_13TeV_powheg_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
   "/QCD_Pt-15to7000_TuneCP5_Flat2017_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
-#]
+  #"/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/MINIAODSIM",
+  #"/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v4/MINIAODSIM",
+  #"/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
+  #"/QCD_Pt_15to30_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
+  #"/QCD_Pt_30to50_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
+  #"/QCD_Pt_50to80_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
+  #"/QCD_Pt_80to120_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
+]
+'''
 ###############
 jsonFile = "https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"
 ########################################################
@@ -125,17 +134,17 @@ if submitJobs:
                        eventsPerJob=eventsPerJob,
                        jsonFile=jsonFile2017,
                        storage_element="T2_PL_Swierk",
-                       publish_data_suffix = "tauID_v3")                  
+                       publish_data_suffix = "full2017_v5")                  
 ########################################################
-#full2017_v4
-#tauID_v3
+#full2017_v6
+#tauID_v6
 ########################################################
 ## Merge output ROOT files.
 ########################################################
 if mergeJobs:
     for dataset in datasets:
-        mergeDataset(dataset=dataset, publish_data_suffix = "tauID_v3",
-                                      outputDir="/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/2017/tauID_v3/")
+        mergeDataset(dataset=dataset, publish_data_suffix = "full2017_v5",
+                                      outputDir="/home/akalinow/scratch/CMS/HiggsCP/Data/WAWNTuples/2017/full2017_v5/")
 
 #for a in v1/*fullRun2017_v1*; do crab resubmit -d $a; done
 #for a in v1/*Run2017*fullRun2017_v1*; do crab report -d $a; done

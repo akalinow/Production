@@ -9,20 +9,22 @@ doSvFit = True
 if doSvFit :
     print "Run with SVFit computation"
 
-#Checkout DNN training files of those are not present in the working area
+#Checkout DNN training files if those are not present in the working area
 #(dut to size the DNN training files should not be send with input sandbox)
 DNN_data_path = os.environ["CMSSW_BASE"]+"/external/"+os.environ["SCRAM_ARCH"]+"/data/RecoTauTag/TrainingFiles/data"
 isDNN_present = os.path.exists(DNN_data_path)
 
+print "isDNN_present:",isDNN_present
+
 if not isDNN_present:
     command = "cd $CMSSW_BASE/src; "
-    command += "git clone https://github.com/cms-tau-pog/RecoTauTag-TrainingFiles -b master RecoTauTag/TrainingFiles/data; "
+    command += "git clone https://github.com/cms-tau-pog/RecoTauTag-TrainingFiles -b nonQuantizedDNN RecoTauTag/TrainingFiles/data; "
     command += "cd -;"
     os.system(command)
 
 #Some system have problem runnig compilation (missing glibc-static library?).
 #First we try to compile, and only then we start time consuming cmssw
-status = gSystem.CompileMacro('HTTEvent.cxx')
+status = gSystem.CompileMacro('HTTEvent.cc')
 gSystem.Load('$CMSSW_BASE/lib/$SCRAM_ARCH/libTauAnalysisClassicSVfit.so')
 status *= gSystem.CompileMacro('HTauTauTreeBase.C')
 status *= gSystem.CompileMacro('HTauMuTauHTree.C')
