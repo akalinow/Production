@@ -1,32 +1,23 @@
 datasets = [
    #Data
-    ##"/SingleMuon/Run2016B-23Sep2016-v1/MINIAOD", #no runs in JSON
-    "/SingleMuon/Run2016B-23Sep2016-v3/MINIAOD",
-    "/SingleMuon/Run2016C-23Sep2016-v1/MINIAOD",
-    "/SingleMuon/Run2016D-23Sep2016-v1/MINIAOD",
-    "/SingleMuon/Run2016E-23Sep2016-v1/MINIAOD",
-    "/SingleMuon/Run2016F-23Sep2016-v1/MINIAOD",
-    "/SingleMuon/Run2016G-23Sep2016-v1/MINIAOD",
-    ##"/SingleMuon/Run2016H-PromptReco-v1/MINIAOD", #no runs in JSON
-    "/SingleMuon/Run2016H-PromptReco-v2/MINIAOD",
-    "/SingleMuon/Run2016H-PromptReco-v3/MINIAOD",
-    ##"/Tau/Run2016B-23Sep2016-v1/MINIAOD", #no runs in JSON
-    "/Tau/Run2016B-23Sep2016-v3/MINIAOD",
-    "/Tau/Run2016C-23Sep2016-v1/MINIAOD",
-    "/Tau/Run2016D-23Sep2016-v1/MINIAOD",
-    "/Tau/Run2016E-23Sep2016-v1/MINIAOD",
-    "/Tau/Run2016F-23Sep2016-v1/MINIAOD",
-    "/Tau/Run2016G-23Sep2016-v1/MINIAOD",    
-    ##"/Tau/Run2016H-PromptReco-v1/MINIAOD", #no runs in JSON
-    "/Tau/Run2016H-PromptReco-v2/MINIAOD",
-    "/Tau/Run2016H-PromptReco-v3/MINIAOD",
-    #ICHEP Data
-    "/SingleMuon/Run2016B-PromptReco-v2/MINIAOD",
-    "/SingleMuon/Run2016C-PromptReco-v2/MINIAOD",
-    "/SingleMuon/Run2016D-PromptReco-v2/MINIAOD",
-    "/Tau/Run2016B-PromptReco-v2/MINIAOD",
-    "/Tau/Run2016C-PromptReco-v2/MINIAOD",
-    "/Tau/Run2016D-PromptReco-v2/MINIAOD",
+    "/SingleMuon/Run2016B-17Jul2018_ver1-v1/MINIAOD",
+    "/SingleMuon/Run2016B-17Jul2018_ver2-v1/MINIAOD",
+    "/SingleMuon/Run2016C-17Jul2018-v1/MINIAOD",
+    "/SingleMuon/Run2016D-17Jul2018-v1/MINIAOD",
+    "/SingleMuon/Run2016E-17Jul2018-v1/MINIAOD",
+    "/SingleMuon/Run2016F-17Jul2018-v1/MINIAOD",
+    "/SingleMuon/Run2016G-17Jul2018-v1/MINIAOD",
+    "/SingleMuon/Run2016H-17Jul2018-v1/MINIAOD",   
+    ##
+    "/Tau/Run2016B-17Jul2018_ver1-v1/MINIAOD",   
+    "/Tau/Run2016B-17Jul2018_ver2-v1/MINIAOD",   
+    "/Tau/Run2016C-17Jul2018-v1/MINIAOD",   
+    "/Tau/Run2016D-17Jul2018-v1/MINIAOD",   
+    "/Tau/Run2016E-17Jul2018-v1/MINIAOD",   
+    "/Tau/Run2016F-17Jul2018-v1/MINIAOD",   
+    "/Tau/Run2016G-17Jul2018-v1/MINIAOD",   
+    "/Tau/Run2016H-17Jul2018-v1/MINIAOD",   
+    
     #Signal SM
     "/GluGluHToTauTau_M120_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM",
     "/GluGluHToTauTau_M125_13TeV_powheg_pythia8/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM",    

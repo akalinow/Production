@@ -40,6 +40,10 @@ def prepareCrabCfg(dataset,
     if dataset.find("31Mar2018")!=-1:
         patternEnd = dataset.find("/MINIAOD")
         shortName+= "_"+dataset[dataset.find("31Mar2018")+9+1:patternEnd]
+
+    if dataset.find("17Jul2018")!=-1:
+        patternEnd = dataset.find("/MINIAOD")
+        shortName+= "_"+dataset[dataset.find("17Jul2018")+9+1:patternEnd]
      
     if dataset.find("ext")!=-1:
         shortName+= "_"+dataset[dataset.find("ext"):dataset.find("ext")+4]
@@ -106,7 +110,8 @@ def prepareCrabCfg(dataset,
 eventsPerJob = 200000 #Wjets and DYJets hardoced in code above
 #eventsPerJob = 200000#4Mu analysis
 
-from datasetsSummer17 import datasets
+from datasetsRun2016 import datasets
+from datasetsRun2017 import datasets
 
 '''
 ##TEST
@@ -123,7 +128,8 @@ datasets = [
 ]
 '''
 ###############
-jsonFile = "https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"
+jsonFileRun2016 = "https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
+jsonFileRun2017 = "https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"
 ########################################################
 if submitJobs:
     for dataset in datasets:

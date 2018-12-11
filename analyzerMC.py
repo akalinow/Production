@@ -53,6 +53,8 @@ print "is94X: " , is94X
 ## Standard sequence
 ##
 
+RUN_PERIOD = "Run2017"
+
 if is80X:
     execfile(PyFilePath+"python/HiggsTauTauProducer_80X.py")
 elif is92X:
